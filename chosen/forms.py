@@ -2,7 +2,7 @@ from django import forms
 from django.db import models
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 
-from . import widgets
+from . import fields, widgets
 
 
 class ChosenAdminForm(forms.ModelForm):
@@ -28,13 +28,16 @@ class ChosenAdminForm(forms.ModelForm):
             elif self.fields[field].__class__.__name__ is 'ModelMultipleChoiceField':
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
                     widgets.ChosenSelectMultiple(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
-            elif self.fields[field].__class__.__name__ is 'ChosenAjaxField':
+            elif isinstance(self.fields[field], fields.ChosenAjaxField):
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
                     widgets.ChosenAjax(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
                 # Set attrs onto the widget so that we can pass it to the view for the queryset.
-                self.fields[field].widget.attrs['data-model'] = self.fields[field].queryset.model._meta.module_name
-                self.fields[field].widget.attrs['data-app'] = self.fields[field].queryset.model._meta.app_label
-                self.fields[field].widget.attrs['data-fields'] = self.fields[field].search_fields
+                attrs = {
+                    'data-model': self.fields[field].queryset.model._meta.module_name,
+                    'data-app': self.fields[field].queryset.model._meta.app_label,
+                    'data-fields': self.fields[field].search_fields
+                }
+                self.fields[field].widget.attrs.update(attrs)
 
     def clean(self):
         """Custom clean method to strip whitespaces from CharField and TextField."""
