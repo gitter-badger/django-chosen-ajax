@@ -11,8 +11,9 @@ class ChosenSelect(Select):
     def __init__(self, attrs=None, *args, **kwargs):
         if attrs is None:
             attrs = {}
-        attrs['class'] = 'chznSelect expanded'
-        attrs['data-placeholder'] = 'Select an option...'
+        attrs.update({
+            'class': 'chznSelect expanded',
+            'data-placeholder': 'Select an option...'})
         super(ChosenSelect, self).__init__(attrs, *args, **kwargs)
 
 
@@ -21,9 +22,10 @@ class ChosenSelectMultiple(SelectMultiple):
     def __init__(self, attrs=None, *args, **kwargs):
         if attrs is None:
             attrs = {}
-        attrs['class'] = 'chznSelect expanded'
-        attrs['multiple'] = 'multiple'
-        attrs['data-placeholder'] = 'Select an option...'
+        attrs.update({
+            'class': 'chznSelect expanded',
+            'multiple': 'multiple',
+            'data-placeholder': 'Select an option...'})
         super(ChosenSelectMultiple, self).__init__(attrs, *args, **kwargs)
 
 
