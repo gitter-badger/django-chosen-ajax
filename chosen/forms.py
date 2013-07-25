@@ -24,13 +24,13 @@ class ChosenAdminForm(forms.ModelForm):
                 self.fields[field].widget = widgets.ChosenSelect(choices=self.fields[field].choices) 
             elif self.fields[field].__class__.__name__ in 'ModelChoiceField':
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
-                    widgets.ChosenSelect(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
+                    widgets.ChosenSelect(), self.instance._meta.get_field(field).rel, self.admin_site)
             elif self.fields[field].__class__.__name__ is 'ModelMultipleChoiceField':
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
-                    widgets.ChosenSelectMultiple(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
+                    widgets.ChosenSelectMultiple(), self.instance._meta.get_field(field).rel, self.admin_site)
             elif isinstance(self.fields[field], fields.ChosenAjaxField):
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
-                    widgets.ChosenAjax(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
+                    widgets.ChosenAjax(), self.instance._meta.get_field(field).rel, self.admin_site)
                 # Set attrs onto the widget so that we can pass it to the view for the queryset.
                 attrs = {
                     'data-model': self.fields[field].queryset.model._meta.module_name,
