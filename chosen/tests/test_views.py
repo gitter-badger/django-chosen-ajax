@@ -31,12 +31,25 @@ class MetaDataViewsTest(TestCase):
         """
         Test that the view works properly.
         """
-        self.client.login(username='test', password='test')
         kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         url = reverse('chosen_lookup')
+        
+        # Check that only logged in User may access
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+        # Login
+        self.client.login(username='test', password='test')
+        
+        # Check with invalid lookup params
+        get_data = {'q': 'sta', 'app': 'chosen', 'fields': 'name breed'}
+        response = self.client.get(url, get_data, **kwargs)
+        self.assertEqual(response.status_code, 404)
+
+        # Check with valid lookup params
         get_data = {'q': 'sta', 'model': 'pony', 'app': 'chosen', 'fields': 'name breed'}
         response = self.client.get(url, get_data, **kwargs)
-
+        self.assertEqual(reponse.status_code, 200)
         json_string = response.content
         data = json.loads(json_string)  
         
