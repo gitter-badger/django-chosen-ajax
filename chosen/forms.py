@@ -24,7 +24,7 @@ class ChosenAdminForm(forms.ModelForm):
                 self.fields[field].widget = widgets.ChosenSelect(choices=self.fields[field].choices) 
             elif self.fields[field].__class__.__name__ in 'ModelChoiceField':
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
-                    widgets.ChosenSelect(), self.instance._meta.get_field(field).rel, self.admin_site)
+                    widgets.ChosenSelect(choices=self.fields[field].choices), self.instance._meta.get_field(field).rel, self.admin_site)
             elif self.fields[field].__class__.__name__ is 'ModelMultipleChoiceField':
                 self.fields[field].widget = RelatedFieldWidgetWrapper(
                     widgets.ChosenSelectMultiple(), self.instance._meta.get_field(field).rel, self.admin_site)
