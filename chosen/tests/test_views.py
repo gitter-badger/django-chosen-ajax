@@ -49,7 +49,7 @@ class MetaDataViewsTest(TestCase):
         # Check with valid lookup params
         get_data = {'q': 'sta', 'model': 'pony', 'app': 'chosen', 'fields': 'name breed'}
         response = self.client.get(url, get_data, **kwargs)
-        self.assertEqual(reponse.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         json_string = response.content
         data = json.loads(json_string)  
         
