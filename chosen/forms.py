@@ -20,6 +20,9 @@ class ChosenAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ChosenAdminForm, self).__init__(*args, **kwargs)
         for field in self.fields:
+            # Set help text for all fields
+            f = self.instance._meta.get_field(field)
+            self.fields[field].help_text = f.help_text
             if self.fields[field].__class__.__name__ in ['ChoiceField', 'TypedChoiceField', 'MultipleChoiceField']:
                 self.fields[field].widget = widgets.ChosenSelect(choices=self.fields[field].choices) 
             elif self.fields[field].__class__.__name__ in 'ModelChoiceField':
