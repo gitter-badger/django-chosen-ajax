@@ -79,3 +79,8 @@ You can add as many fields to search_fields as you need, they get combined into 
 
 No longer in development.
 
+
+
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/erichonkanen/django-chosen-ajax
+   :target: https://gitter.im/erichonkanen/django-chosen-ajax?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
